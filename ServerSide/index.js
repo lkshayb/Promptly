@@ -1,24 +1,29 @@
 const express = require('express');
+const {createUsersTable,LoginParams,SignUpParams} = require('./db');
 const app = express();
 const port = process.env.PORT || 3000;
-
-app.get('/login', (req,res) => {
+app.use(express.json()); 
+app.get('/login', async(req,res) => {
     // need : username , password
     // return : jsonwebtoken
     // verify with database , if user exit then send jwt
 
-    const username = req.username;
-    const password = req.query.password;
-    console.log(req);
-
-    res.send('Hello from login endpoint!')
+    const username = req.body.urm;
+    const password = req.body.password;    
+    const token = await LoginParams(username,password)
+    res.send({token})
 })
 
-app.get('/signup', (req,res) => {
+app.post('/signup', async(req,res) => {
     // need : username , password
     // return : account creation accepted or rejected.
     // check if user exists , if not then create new user. and redirect to login endpoint
-    res.send('Hello from signup endpoint!')
+
+    const username = req.body.urm;
+    const password = req.body.password;   
+    const email = req.body.email;
+    const result = await SignUpParams(username,password,email)
+    res.send({result})
 })
 
 app.get('/api/txt', (req,res) => {
