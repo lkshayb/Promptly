@@ -11,7 +11,6 @@ const client = new Client({
 //Login Handler Function
 async function LoginParams(username,password) {
     let token ;
-    await client.connect();
     const result = await client.query(`SELECT username FROM users where username = $1`,[username]);
 
     if(result.rows.length>0){
@@ -20,7 +19,7 @@ async function LoginParams(username,password) {
                     username : username,
                     password : password
                 }
-            }, jwt_secret, { expiresIn: '1h'}
+            }, jwt_secret, { expiresIn: '24h'}
         )
     } 
 
@@ -29,6 +28,7 @@ async function LoginParams(username,password) {
     }
 
     if(token){
+        const add_token = await client.query(`UPDATE users SET token = $1 WHERE username = $2`,[token,username])
         console.log("USER_FOUND, TOKEN:",token)
     }
 
@@ -51,6 +51,18 @@ async function SignUpParams(username,password,email) {
     }
 }
 
+async function Verify_username(username) {
+    await client.connect()
+    const run = await client.query(`SELECT username FROM users WHERE username = $1`,[username])
+    const urdb = run.rows[0].username
+    if(urdb == username){
+        return true
+    }else{
+        return false
+    }
+}
+
+
 
 async function createUsersTable() {
     await client.connect()
@@ -59,9 +71,17 @@ async function createUsersTable() {
             id SERIAL PRIMARY KEY,
             username VARCHAR(50) UNIQUE NOT NULL,
             password VARCHAR(255) NOT NULL,
+            email VARCHAR(255) UNIQUE NOT NULL, 
+            token VARCHAR UNIQUE,
             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         );
     `)
 }
- 
-module.exports = {createUsersTable,LoginParams,SignUpParams}
+async function DropTable() {
+    await client.connect()
+    const result = await client.query(`
+        DROP TABLE users
+    `)
+}
+
+module.exports = {createUsersTable,LoginParams,SignUpParams,Verify_username}

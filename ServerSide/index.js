@@ -1,8 +1,14 @@
 const express = require('express');
+require('dotenv').config();
+const jwt = require("jsonwebtoken");
+const jwt_secret = process.env.JWT_SECRET;
+
+const {jwtmiddleware} = require("./middleware")
 const {createUsersTable,LoginParams,SignUpParams} = require('./db');
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json()); 
+
 app.get('/login', async(req,res) => {
     // need : username , password
     // return : jsonwebtoken
@@ -26,11 +32,17 @@ app.post('/signup', async(req,res) => {
     res.send({result})
 })
 
-app.get('/api/txt', (req,res) => {
+app.get('/api/txt',async(req,res) => {
     // need : Prompt , number of lines , user JWT
     // return : Request failed/passed , response text
     // verify JWT , check if user have enough credits , if not then reject , send api request to sarvam/gemini
-    res.send('Hello from text gen endpoint!')
+
+    if(await jwtmiddleware(req)){
+        
+    }else{
+        res.send("INVALID TOKEN | PLEASE LOGIN AGAIN !!!")
+    }
+
 })
 
 app.get('/api/img', (req,res) => {
