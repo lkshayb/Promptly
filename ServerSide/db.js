@@ -51,18 +51,6 @@ async function SignUpParams(username,password,email) {
     }
 }
 
-async function Verify_username(username) {
-    await client.connect()
-    const run = await client.query(`SELECT username FROM users WHERE username = $1`,[username])
-    const urdb = run.rows[0].username
-    if(urdb == username){
-        return true
-    }else{
-        return false
-    }
-}
-
-
 
 async function createUsersTable() {
     await client.connect()
@@ -84,4 +72,4 @@ async function DropTable() {
     `)
 }
 
-module.exports = {createUsersTable,LoginParams,SignUpParams,Verify_username}
+module.exports = {createUsersTable,LoginParams,SignUpParams}

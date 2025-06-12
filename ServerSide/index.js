@@ -20,6 +20,12 @@ app.get('/login', async(req,res) => {
     res.send({token})
 })
 
+app.get('/admin', async(req,res) => {
+    //admin route//
+    //recieves ==> admin_username , admin_password , admin_mail 
+
+})
+
 app.post('/signup', async(req,res) => {
     // need : username , password
     // return : account creation accepted or rejected.
