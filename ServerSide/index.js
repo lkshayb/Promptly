@@ -2,6 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const jwt = require("jsonwebtoken");
 const jwt_secret = process.env.JWT_SECRET;
+const {text_completion} = require('./Models/Text-completion/main')
 
 const {jwtmiddleware} = require("./middleware")
 const {createUsersTable,LoginParams,SignUpParams} = require('./db');
@@ -44,7 +45,8 @@ app.get('/api/txt',async(req,res) => {
     // verify JWT , check if user have enough credits , if not then reject , send api request to sarvam/gemini
 
     if(await jwtmiddleware(req)){
-        res.send("GOOD TOKEN")
+
+        text_completion(req,res)
     }else{
         res.send("INVALID TOKEN | PLEASE LOGIN AGAIN !!!")
     }
@@ -52,7 +54,7 @@ app.get('/api/txt',async(req,res) => {
 })
 
 app.get('/api/img', async(req,res) => {
-    // need : Prompt , style , user JWT
+    // need : Prompt , style , user JWT , Model
     // return : Request failed/passed , response image
     // verify JWT , check if user have enough credits , if not then reject , send api request to sarvam/gemini
     if(await jwtmiddleware(req)){
