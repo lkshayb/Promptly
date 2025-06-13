@@ -6,12 +6,12 @@
 
 ## **What is Promptly?**
 
-**Promptly** is a multimodal platform powered by the latest in Generative AI. Enter a single prompt and choose your creative mode:
+**Promptly** is a multimodal gen AI platform. Enter a single prompt and choose your creative mode:
 
--  **Write** — Generate stories, poems, or blog drafts.
--  **Image** — Create AI art from your words.
--  **Code** — Turn feature ideas into code snippets or app mockups.
--  **Video** — Generate storyboards or scene breakdowns for short videos.
+-  **Write**
+-  **Image**
+-  **Code**
+-  **Video**
 
 
 ## 🛠️ **Tech Stack**
