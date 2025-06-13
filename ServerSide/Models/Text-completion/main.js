@@ -1,5 +1,5 @@
 const {sarvam_txt} = require('./sarvam')
-// const {gemini_txt} = require('./gemini  ')
+const {gemini_txt} = require('./gemini')
 
 function text_completion(req,res){
     if(req.body.model == "sarvam"){
@@ -7,7 +7,8 @@ function text_completion(req,res){
         return sarvam_txt(req,res);
     }
     if(req.body.model == "gemini"){
-        return gemini_txt();
+        console.log("reached text_completion")
+        return gemini_txt(req,res);
     }
     if(req.body.model == "openai"){
         return openai_txt();
