@@ -44,18 +44,22 @@ app.get('/api/txt',async(req,res) => {
     // verify JWT , check if user have enough credits , if not then reject , send api request to sarvam/gemini
 
     if(await jwtmiddleware(req)){
-        
+        res.send("GOOD TOKEN")
     }else{
         res.send("INVALID TOKEN | PLEASE LOGIN AGAIN !!!")
     }
 
 })
 
-app.get('/api/img', (req,res) => {
+app.get('/api/img', async(req,res) => {
     // need : Prompt , style , user JWT
     // return : Request failed/passed , response image
     // verify JWT , check if user have enough credits , if not then reject , send api request to sarvam/gemini
-    res.send('Hello from signup endpoint!')
+    if(await jwtmiddleware(req)){
+        res.send("GOOD TOKEN")
+    }else{
+        res.send("INVALID TOKEN | PLEASE LOGIN AGAIN !!!")
+    }
 })
 
 app.listen(port, () => {
