@@ -28,7 +28,7 @@
 - **Gemini**
 - **Postgresql** 
 
----
+
 
 ## **Core Features**
 
@@ -53,4 +53,4 @@ Download or copy your outputs:
 - Code with syntax highlighting
 - Zipped export
 
----
+
