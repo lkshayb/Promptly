@@ -1,4 +1,5 @@
 const {text_completion} = require('./Models/Text-completion/main')
+const {image_generation} = require('./Models/image-generation/main')
 const {jwtmiddleware} = require("./middleware")
 const {LoginParams,SignUpParams} = require('./db');
 
@@ -56,7 +57,7 @@ app.get('/api/img', async(req,res) => {
     // return : Request failed/passed , response image
     // verify JWT , check if user have enough credits , if not then reject , send api request to sarvam/gemini
     if(await jwtmiddleware(req)){
-        res.send("GOOD TOKEN")
+        image_generation(req,res)
     }else{
         res.send("INVALID TOKEN | PLEASE LOGIN AGAIN !!!")
     }
