@@ -14,14 +14,14 @@
 -  **Video**
 
 
-##**Tech Stack**
+## **Tech Stack**
 
-###Frontend
+### Frontend
 - **NextJS** 
 - **Tailwind CSS**
 
 
-###Backend & APIs
+### Backend & APIs
 - **Node.js + Express**
 - **OpenAI GPT-4/GPT-4o**
 - **SarvamAI**
