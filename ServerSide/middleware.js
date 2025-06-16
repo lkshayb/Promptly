@@ -42,5 +42,13 @@ async function jwtmiddleware(req,res){
     }
 }
 
+async function JWT_revoke(token){
+    await client.connect()
+    const decoded = jwt.decode(token)
+    const expires_at = new Date(decoded.exp * 1000);
+    const run = await client.query(`INSERT INTO revoked_tokens(token,expires_at) VALUES ($1,$2) ON CONFLICT DO NOTHING`,[token,expires_at])
+    return("TOKEN REVOKED SUCCESSFULLY")
+}
 
-module.exports = {jwtmiddleware}
+
+module.exports = {jwtmiddleware,JWT_revoke}

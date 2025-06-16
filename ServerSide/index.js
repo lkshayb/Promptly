@@ -1,9 +1,10 @@
 const {text_completion} = require('./Models/Text-completion/main')
 const {image_generation} = require('./Models/image-generation/main')
 const {jwtmiddleware} = require("./middleware")
-const {LoginParams,SignUpParams} = require('./db');
+const {LoginParams,SignUpParams,Logout} = require('./db');
 
 const express = require('express');
+const { use } = require('react');
 require('dotenv').config();
 
 const app = express();
@@ -24,7 +25,13 @@ app.get('/login', async(req,res) => {
 
 
 app.get('/logout', async (req,res) => {
-    
+    // need : username , jwt , password
+    // return : logout success 
+    // verify with database , make the jwt invalid 
+    const username = req.body.urm;
+    const password = req.body.password;    
+    const token  = req.body.JWT;
+    res.send(await Logout(username,password,token))
 })
 
 app.get('/admin', async(req,res) => {

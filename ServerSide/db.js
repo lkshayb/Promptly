@@ -1,7 +1,9 @@
 require('dotenv').config();
 const {Client} = require("pg");
 const jwt = require("jsonwebtoken");
+const { JWT_revoke } = require('./middleware');
 const jwt_secret = process.env.JWT_SECRET;
+
 
 //Connecting Postgres Server
 const client = new Client({
@@ -39,7 +41,7 @@ async function LoginParams(username,password) {
 
 //SignUp Handler Function
 async function SignUpParams(username,password,email) {
-    await client.connect();
+    const cnt = await client.connect();
     const exists = await client.query(`SELECT username FROM users where username = $1 OR email = $2`,[username,email]);
     if (exists.rows.length > 0){
         return  "USER_ALREADY_EXIST"
@@ -50,6 +52,28 @@ async function SignUpParams(username,password,email) {
         }
     }
 }
+
+//Logout Handler Function
+async function Logout(username,password,token) {
+    const cnt = await client.connect()
+    const command = await client.query(`SELECT * FROM users WHERE username = $1 `,[username]);
+    if(command.rows.length > 0){
+        const user = await new Promise((resolve,reject) => {
+            jwt.verify(token,jwt_secret,(err,decoded) => {
+                if (err) return reject(err);
+                resolve(decoded);
+            })
+        })
+        console.log(user.data)
+        if(user.data.username == username && user.data.password == password){
+            console.log(await JWT_revoke(token))
+        }
+        
+        return "LOGOUT SUCCESSFUL"
+    }
+}
+
+
 
 
 async function createUsersTable() {
@@ -72,4 +96,4 @@ async function DropTable() {
     `)
 }
 
-module.exports = {createUsersTable,LoginParams,SignUpParams}
+module.exports = {createUsersTable,LoginParams,SignUpParams,Logout}
