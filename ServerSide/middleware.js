@@ -21,11 +21,15 @@ async function Verify_username(username) {
 
 async function jwtmiddleware(req,res){
     const token = req.body.JWT;
-    if(!token){
-        return false
-    }
-
+    if(!token) return false
+    async function checkrevoke(token) {
+        const runit = await client.query(`SELECT * FROM revoked_tokens WHERE token = $1`,[token])
+        if(runit.rows.length > 0){
+            return false
+        }
+    } 
     try{
+        const revoke = await checkrevoke(token);
         const user = await new Promise((resolve,reject) => {
             jwt.verify(token,jwt_secret,(err,decoded) => {
                 if (err) return reject(err);
@@ -33,8 +37,7 @@ async function jwtmiddleware(req,res){
             })
         })
 
-        const username = user.data.username
-        const verifyuser = await Verify_username(username)
+        const verifyuser = await Verify_username(user.data.username)
         return !!verifyuser;
     } catch(error){
         console.log("JWT Verification Failed:",error.message);
