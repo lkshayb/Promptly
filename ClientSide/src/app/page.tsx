@@ -4,41 +4,107 @@ import { AnimatePresence, motion } from "framer-motion";
 import { div } from "framer-motion/client";
 import { useState } from "react";
 
-export default function Home() {
+export default function Main() {
   const [useNext,setusenext] = useState(false);
-  return <main >        
-    <AnimatePresence>
+  function Header(){
+    return (
+      <div className="
+      bg-white/30 
+      py-5 
+      px-10 
+      backdrop-blur 
+      flex 
+      justify-between">
+            <div>
+              <span className=" 
+              text-3xl 
+              font-semibold 
+              bg-gradient-to-r 
+              from-violet-500 
+              to-blue-700 
+              bg-clip-text 
+              text-transparent
+              ">Promptly</span>
+            </div>
+            <div className="
+            flex 
+            items-center 
+            gap-14 
+            text-[17px]">
+              <div className="
+              cursor-pointer 
+              hover:scale-105 
+              duration-300 
+              ease-in 
+              hover:text-violet-500 
+              text-gray-500
+              ">
+                <span className="">Features</span>
+              </div>
+              <div className="
+              cursor-pointer 
+              hover:scale-105 
+              duration-300 
+              ease-in 
+              hover:text-violet-500 
+              text-gray-500
+              ">
+                <span className="">Creative Modes</span>
+              </div>
+              <div className="
+              cursor-pointer 
+              hover:scale-105 
+              duration-300 
+              ease-in 
+              hover:text-violet-500 
+              text-gray-500
+              ">
+                <span className="">Pricing</span>
+              </div>
+            </div>
+            <div className="
+            flex 
+            gap-5">
+              <button className="
+              cursor-pointer 
+              border 
+              border-blue-500/20 
+              hover:border-violet-500/20
+              px-4 
+              rounded-lg 
+              text-blue-700 
+              shadow-sm 
+              hover:shadow-md
+              hover:bg-violet-100 
+              hover:text-violet-700 
+              duration-300 
+              ease-in">
+                <span className="">SignIn</span>
+              </button>
 
-    {!useNext && (
-      
-          <motion.section initial={{y:0,opacity:1}} exit={{y:'-100%',opacity:0.1}} transition={{duration:0.4}} className="h-screen w-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center max-w-2xl">
-              <motion.p className="text-5xl font-bold mb-4" initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ duration: 0.6 }}>
-                Welcome to PromptSmith
-              </motion.p>
+              <button className="
+              rounded-lg
+              px-4
+              bg-gradient-to-r 
+              from-violet-500 
+              to-blue-700 
+              text-white
+              cursor-pointer
+              duration-300
+              hover:text-gray-200
+              ease-in
+              shadow
+              hover:shadow-xl
 
-              <motion.p className="text-lg mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.8 }}>
-                Turn your ideas into images, code, and videos — all from one prompt. Effortless, powerful, creative.
-              </motion.p>
-
-              <motion.button onClick={() => setusenext(true)} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} transition={{ type: 'spring', stiffness: 300 }} className="bg-white text-indigo-600 font-semibold px-6 py-3 rounded-full shadow-lg">
-                Get Started
-              </motion.button>
-            </motion.div>
-          </motion.section>
-        
-      
-      
-      
-    )}
-    </AnimatePresence>
-    {useNext && (
-      <div className="text-center max-w-2xl">
-        <p className="text-5xl font-bold mb-4">Welcome to PromptSmith</p>
-  
-      </div>
-    )}
-      
-    </main>
+              ">
+                <span className=" ">Get Started</span>
+              </button>
+            </div>
+      </div>  
+    )
+  }
+  return <div>
+    <Header/>
+  </div>
   
 }
